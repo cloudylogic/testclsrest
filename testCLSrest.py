@@ -1,4 +1,5 @@
 
+import os
 import sys
 
 # This exception class is raised whenever we detect an error
@@ -10,7 +11,7 @@ class ValidationError(Exception):
         return self.msg
         
 def msg(msg):
-    print "lh:%s" % msg
+    print "%s:%s" % (os.path.basename(__file__),msg)
 
 def wrongType(var,expected,actual):
     raise ValidationError("%s should be %s not %s" % (var,expected,actual))
