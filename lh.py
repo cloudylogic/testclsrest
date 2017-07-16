@@ -279,7 +279,26 @@ def testOurWorkAPI(host):
             print e
             sys.exit(1)
 
-        # TODO: Dump the data here
+        apiObj = reply['apiObj']
+        print "numVideos: ", apiObj['numVideos']
+
+        count = 0
+        for video in apiObj['videoList']:
+            print "videoList[%d] detailed video information:" % count
+            print "        type: %s" % video['type']
+            roles = video['roles']
+            for role in roles.keys():
+                if roles[role]: print "%12.12s: %s" % (role,roles[role])
+                
+            print " description: %.80s ... [more]" % video['description']
+            print "       title: %s" % video['title']
+            print "         url: %s" % video['url']
+            print "        sUrl: %s" % video['sUrl']
+            print "       thumb: %s" % video['thumb']
+            print "       frame: %s" % video['frame']
+            
+            count += 1
+        
         print "\r\n------------------------\r\n"    
 
 def testVersionsAPI(host):
@@ -309,18 +328,29 @@ def testVersionsAPI(host):
 
 if __name__ == "__main__":
 
-    host = "http://localhost:8000"
+    host = sys.argv[1] if len(sys.argv) > 1 else "."
+    api = sys.argv[2] if len(sys.argv) > 2 else "*"
     
-    if len(sys.argv) > 1:
-        host = sys.argv[1]
+    if host == '.': host = "http://localhost:8000"
 
-    print "Running CLS REST API test on host %s" % host
     
-    testReelAPI(host)
-    testAboutUsAPI(host)
-    testContactInfoAPI(host)
-    testOurWorkAPI(host)
-    testVersionsAPI(host)
-    
+    tests = {"reels":        testReelAPI, 
+             "about-us":     testAboutUsAPI, 
+             "contact-info": testContactInfoAPI,
+             "our-work":     testOurWorkAPI,
+             "versions":     testVersionsAPI
+    }
+             
+    if api == "*":
+        print "Running ALL CLS REST API tests on host %s" % host
+        for apiTest in tests.keys():
+            tests[apiTest](host)
+            
+    elif api in tests.keys():
+        print "Running %s CLS REST API tests on host %s" % (api,host)
+        tests[api](host)
+    else:
+        print "usage: lh [host] [test]"
+        sys.exit(1)
+  
     print "SUCCESS! All tests have passed.\r\n"
-    
