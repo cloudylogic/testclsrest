@@ -1,7 +1,7 @@
 # testCLSrest
-### Command Line tester for the Cloudy Logic Studios REST API
+### Python test script for the Cloudy Logic Studios REST API
 
-Welcome to the command line Python test script for the CLS REST API. The CLS REST API itself is hosted on [api.cloudylogic.com](http://api.cloudylogic.com), and although it has a manual testing facility built into the main page using AJAX, the Python script goes much further in shaking out the API. If you have questions, or would like to provide feedback and/or to report a bug, feel free to contact the author, Ken Lowrie, at [www.kenlowrie.com](http://www.kenlowrie.com/).
+Welcome to the Python test script for the CLS REST API. The CLS REST API server code is hosted on [api.cloudylogic.com](http://api.cloudylogic.com), and although it has a manual testing facility built into the main page using AJAX, the Python script goes much further in shaking out the API. If you have questions, or would like to provide feedback and/or to report a bug, feel free to contact the author, Ken Lowrie, at [www.kenlowrie.com](http://www.kenlowrie.com/).
 
 ### Attributions
 
@@ -23,9 +23,9 @@ The usage for the script is as follows:
 
     python testCLSrest.py [host | .] [api_name | \*]
 
-If you don't pass any parameters, it will assume that you have the server code running on your local development server on port 8000. So, http://localhost:8000 is where it will be sending the JSON requests.
+If you don't pass any parameters, it will assume that you have the server code running on your local development server on port 8000. So, http://localhost:8000 is where it will be sending the JSON requests. I'm assuming this because I use Gulp (LINK) as my automated build environment, and the gulp-php-server (LINK) module, and that is the default it uses. If you use something else or a different default, change the port and/or URL in your copy.
 
-If you don't have it running locally, you can use the live server at http://api.cloudylogic.com. Do that by specifying: 
+If you don't have it (the CLS REST API Server code) running locally, you can use the live server at http://api.cloudylogic.com. Do that by specifying: 
 
     python testCLSrest.py http://api.cloudylogic.com
 
@@ -37,25 +37,20 @@ Be default, it will run all the tests. If you want to run a single test, specify
     reels - Returns information about demo reels including a streaming URL.
     our-work - Returns information about select video projects that showcase the company.
 
-So, for example, to test the demo reel API, you would run:
+So, for example, to test the reels API, you would run:
 
     python testCLSrest.py http://api.cloudylogic.com reels
     python testCLSrest.py . reels
 
 The first line would run the request against the live server, and the second one would run it against your local server.
-    
+
+That's about it, there's not a lot to this script, at least right now. I may be developing some additional test scripts in other languages, and if so, they will become part of this same repository.
 
 #### Additional Information
 
-Talk about looking at the source code for additional information.
-Talk about reviewing the Javascript for the [api.cloudylogic.com] root page
-Talk about reviewing the test code written in Python
-Talk about reviewing the test code written in Java
-Talk about reviewing client code for Python, Java, Kotlin, Javascript and Swift
+For additional information, take a look at the comments in the source code! I tried to add plenty of useful comments in there to help you understand the app.
 
-#### Self Correcting
-
-blah, blah, blah
+Of course you may also want to take a look at the repository for the CLS REST API server code, which is located here (TODO: LINK) on GitHub. It is written in PHP, so you'll need at least a basic understanding of that in order to decipher it. I've also added lots of comments to it as well, so you might find answers to some of your questions by reviewing that. The README.md file that's part of that repository also provides plenty of documentation on the API.
 
 #### Summary
 
