@@ -13,9 +13,6 @@ class ValidationError(Exception):
 def msg(msg):
     print "%s:%s" % (os.path.basename(__file__),msg)
 
-def wrongType(var,expected,actual):
-    raise ValidationError("%s should be %s not %s" % (var,expected,actual))
-
 def checkType(varName,varValue,expected):
     msg("Validating data type of %s" % varName);
     if type(varValue) != type(expected):
