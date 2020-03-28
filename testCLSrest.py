@@ -1,3 +1,4 @@
+# This file is covered by the LICENSE file in the root of this project.
 """
 testCLSrest.py
 
@@ -27,7 +28,7 @@ class ValidationError(Exception):
         
 def msg(msg):
     """msg(msg): print a message to the console"""
-    print "%s:%s" % (os.path.basename(__file__),msg)
+    print ("%s:%s" % (os.path.basename(__file__),msg))
 
 def checkType(varName,varValue,expected):
     """checkType(varName,varValue,exptected)
@@ -38,7 +39,7 @@ def checkType(varName,varValue,expected):
         This function tests the type of a variable to ensure that it is what's expected.
         If it's not, then an exception is thrown.
     """
-    msg("Validating data type of %s" % varName);
+    msg("Validating data type of %s" % varName)
     if type(varValue) != type(expected):
         raise ValidationError("%s should be %s not %s" % (varName,type(expected),type(varValue)))
 
@@ -125,9 +126,9 @@ def validateReelReplyData(apiObj, api):
     count = 0
     for reelx in reelList:
         # make sure each element in reelList is a dictionary
-        checkType("reelList[%d]" % count,reelx,{});
+        checkType("reelList[%d]" % count,reelx,{})
         # make sure that each element has the expected keys
-        expectedKeys = ['url', 'sUrl','thumb','frame','title']
+        expectedKeys = ['url', 'sUrl','hdUrl','sdUrl','mobileUrl','thumb','frame','title']
         validateKeys("apiList[%d]" % count, reelx.keys(), expectedKeys)
         for rkey in expectedKeys:
             # make sure each key is a unicode string
@@ -140,7 +141,7 @@ def validateReelReplyData(apiObj, api):
     checkType("apiObj['numReels']", numReels, 0)
     
     # make sure that numReels matches up to the count of array elements in reelList
-    msg("Validating count of reels in reelList");
+    msg("Validating count of reels in reelList")
     reels = apiObj['reelList']
     if numReels != len(reels): raise ValidationError("Expected %d reels in reelList but got %d instead" % (numReels,len(reels)))
 
@@ -193,7 +194,7 @@ def validateContactInfoReplyData(apiObj, api):
     checkType("apiObj['phone']", apiObj['phone'], u"")
 
     # make sure that socialNetworks is a list
-    msg("Validating data type of socialNetworks");
+    msg("Validating data type of socialNetworks")
     socialNetworks = apiObj['socialNetworks']
     checkType("apiObj['socialNetworks']", socialNetworks, [])
 
@@ -202,7 +203,7 @@ def validateContactInfoReplyData(apiObj, api):
         # make sure each element in socialNetworks is a dictionary
         checkType("apiObj['socialNetwork'[%d]" % count, snet, {})
         # validate the expected keys in each dictionary
-        expectedKeys = ['network', 'id','url']
+        expectedKeys = ['network', 'id','url', 'image']
         validateKeys("socialNetworks[%d]" % count, snet.keys(), expectedKeys)
         for rkey in expectedKeys:
             # make sure each key value is a unicode string
@@ -236,18 +237,18 @@ def validateOurWorkReplyData(apiObj, api):
     checkType("apiObj['videoList']", videoList, [])
     
     # make sure that numVideos == the number of elements in the videoList array
-    msg("Validating count of numApis in videoList");
-    if numVideos != len(videoList): raise ValidationError("Expected %d APIs in videoList but got %d instead" % (numApis,len(videoList)))
+    msg("Validating count of numApis in videoList")
+    if numVideos != len(videoList): raise ValidationError("Expected %d videos in videoList but got %d instead" % (numVideos,len(videoList)))
     
     count = 0
     for videox in videoList:
         # make sure each video in the list is a dictionary
         checkType("apiObj['videoList'][%d]" % count, videox, {})
         # make sure the expected keys are present in each dictionary
-        expectedKeys = ['type', 'roles','description','url', 'sUrl','thumb','frame','title']
+        expectedKeys = ['type', 'roles','description','url', 'sUrl','hdUrl','sdUrl','mobileUrl','thumb','frame','title']
         validateKeys("videoList[%d]" % count, videox.keys(), expectedKeys)
         
-        msg("Validating videoList[%d] dictionary" % count);
+        msg("Validating videoList[%d] dictionary" % count)
         for rkey in expectedKeys:
             # make sure the data type of each key is correct
             if rkey != 'roles':
@@ -290,7 +291,7 @@ def validateVersionsReplyData(apiObj, api):
     checkType("apiObj['apiList']", apiList, [])
 
     # make sure numApis == number of elements in apiList
-    msg("Validating count of numApis in apiList");
+    msg("Validating count of numApis in apiList")
     if numApis != len(apiList): raise ValidationError("Expected %d APIs in apiList but got %d instead" % (numApis,len(apiList)))
 
     count = 0
@@ -331,17 +332,17 @@ def testReelAPI(host):
             # validate the reels-specific reply data
             validateReelReplyData(reply['apiObj'], api)
         except ValidationError as e:
-            print e
+            print (e)
             sys.exit(1)
 
         # pretty print the reels-specific data
         apiObj = reply['apiObj']
-        print "numReels: ", apiObj['numReels']
+        print ("numReels: ", apiObj['numReels'])
 
         for reel in apiObj['reelList']:
-            print reel['title'], "available at", reel['url']
+            print (reel['title'], "available at", reel['url'])
 
-        print "\r\n------------------------\r\n"    
+        print ("\r\n------------------------\r\n")    
 
 def testAboutUsAPI(host):
     """testAboutUsAPI(host)
@@ -363,13 +364,13 @@ def testAboutUsAPI(host):
             # validate the about-us specific reply data
             validateAboutUsReplyData(reply['apiObj'], api)
         except ValidationError as e:
-            print e
+            print (e)
             sys.exit(1)
 
         # pretty print the about-us specific data
-        print "%.80s... [more]" % reply['apiObj']['aboutus']
+        print ("%.80s... [more]" % reply['apiObj']['aboutus'])
 
-        print "\r\n------------------------\r\n"    
+        print ("\r\n------------------------\r\n" )   
 
 def testContactInfoAPI(host):
     apiSet = ["contact-info/"]
@@ -384,23 +385,23 @@ def testContactInfoAPI(host):
             # validate the contact-info specific reply data
             validateContactInfoReplyData(reply['apiObj'], api)
         except ValidationError as e:
-            print e
+            print (e)
             sys.exit(1)
 
         # pretty print the contact-info specific data
         apiObj = reply['apiObj']
-        print "Location: ", apiObj['location']
-        print "   Email: ", apiObj['email']
-        print "   Phone: ", apiObj['phone']
+        print ("Location: ", apiObj['location'])
+        print ("   Email: ", apiObj['email'])
+        print ("   Phone: ", apiObj['phone'])
         address = apiObj['address']
-        print " Address: %s,%s,%s,%s %s" % (address['name'],address['street'],address['city'],address['state'],address['zipcode'])
+        print (" Address: %s,%s,%s,%s %s" % (address['name'],address['street'],address['city'],address['state'],address['zipcode']))
         
         count = 0
         for snet in apiObj['socialNetworks']:
-            print "socialNetwork[%d] {name:%s, id:%s, url:%s}" % (count,snet['network'],snet['id'],snet['url'])
+            print ("socialNetwork[%d] {name:%s, id:%s, url:%s}" % (count,snet['network'],snet['id'],snet['url']))
             count = count + 1
             
-        print "\r\n------------------------\r\n"    
+        print ("\r\n------------------------\r\n")    
 
 def testOurWorkAPI(host):
     apiSet = ["our-work/","our-work/3/"]
@@ -415,31 +416,31 @@ def testOurWorkAPI(host):
             # validate the our-work specific reply data
             validateOurWorkReplyData(reply['apiObj'], api)
         except ValidationError as e:
-            print e
+            print (e)
             sys.exit(1)
 
         # pretty print the our-work specific data
         apiObj = reply['apiObj']
-        print "numVideos: ", apiObj['numVideos']
+        print ("numVideos: ", apiObj['numVideos'])
 
         count = 0
         for video in apiObj['videoList']:
-            print "videoList[%d] detailed video information:" % count
-            print "        type: %s" % video['type']
+            print ("videoList[%d] detailed video information:" % count)
+            print ("        type: %s" % video['type'])
             roles = video['roles']
             for role in roles.keys():
-                if roles[role]: print "%12.12s: %s" % (role,roles[role])
+                if roles[role]: print ("%12.12s: %s" % (role,roles[role]))
                 
-            print " description: %.80s ... [more]" % video['description']
-            print "       title: %s" % video['title']
-            print "         url: %s" % video['url']
-            print "        sUrl: %s" % video['sUrl']
-            print "       thumb: %s" % video['thumb']
-            print "       frame: %s" % video['frame']
+            print (" description: %.80s ... [more]" % video['description'])
+            print ("       title: %s" % video['title'])
+            print ("         url: %s" % video['url'])
+            print ("        sUrl: %s" % video['sUrl'])
+            print ("       thumb: %s" % video['thumb'])
+            print ("       frame: %s" % video['frame'])
             
             count += 1
         
-        print "\r\n------------------------\r\n"    
+        print ("\r\n------------------------\r\n")    
 
 def testVersionsAPI(host):
     apiSet = ["versions/","versions/reels/"]
@@ -454,20 +455,20 @@ def testVersionsAPI(host):
             # validate the versions-specific reply data
             validateVersionsReplyData(reply['apiObj'], api)
         except ValidationError as e:
-            print e
+            print (e)
             sys.exit(1)
 
         # pretty print the versions-specific data
         apiObj = reply['apiObj']
         
-        print "numApis: ",apiObj['numApis']
+        print ("numApis: ",apiObj['numApis'])
         
         count = 0
         for apix in apiObj['apiList']:
-            print "apiList[%d] {apiName:%s, apiVersion:%s, apiDataVersion:%s}" % (count,apix['apiName'],apix['apiVersion'],apix['apiDataVersion'])
+            print ("apiList[%d] {apiName:%s, apiVersion:%s, apiDataVersion:%s}" % (count,apix['apiName'],apix['apiVersion'],apix['apiDataVersion']))
             count = count + 1
         
-        print "\r\n------------------------\r\n"    
+        print ("\r\n------------------------\r\n")    
 
 if __name__ == "__main__":
 
@@ -489,18 +490,18 @@ if __name__ == "__main__":
              
     if api == "*":
         # if we are running all tests
-        print "Running ALL CLS REST API tests on host %s" % host
+        print ("Running ALL CLS REST API tests on host %s" % host)
         # for each API, invoke the test function
         for apiTest in tests.keys():
             tests[apiTest](host)
             
     elif api in tests.keys():
         # if we are running a specific test
-        print "Running %s CLS REST API tests on host %s" % (api,host)
+        print( "Running %s CLS REST API tests on host %s" % (api,host))
         # run that single test
         tests[api](host)
     else:
-        print "usage: lh [host] [test]"
+        print( "usage: lh [host] [test]")
         sys.exit(1)
   
-    print "SUCCESS! All tests have passed.\r\n"
+    print ("SUCCESS! All tests have passed.\r\n")
